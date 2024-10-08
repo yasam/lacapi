@@ -292,7 +292,6 @@ def execute_apis(apis, multi):
 	global lapi
 
 	lapi.check_and_update_token()
-	lapi.get_batchId()
 
 	pool = multiprocessing.Pool(processes=multi)
 	#pool.map(mget, apis)
@@ -308,14 +307,13 @@ def get_batchId(args):
     return lapi.get_batchId()
 
 def add_apis(apis, args, device):
-	batch_id = ""
+	batchId = ""
 	for api in APIS:
 		if getattr(args, api['name']):
-			s = api
-			if "/{batchId}/" in api:
-				if batch_id == "": 
+			if "/{batchId}/" in api['URL']:
+				if batchId == "":
 					batchId = get_batchId(args)
-			s = api['URL'].format(deviceId=device, batchId=batch_id)
+			s = api['URL'].format(deviceId=device, batchId=batchId)
 			apis.append(s)
 	
 
@@ -413,10 +411,6 @@ def main():
 		lapi.set_execute_command(args.execute_command)
 
 	# execute the request
-	# set batch Id
-	if args.batch_id:
-		lapi.set_batchId(args.batch_id)
-
 	# set radio Id
 	if args.radio_id:
 		lapi.set_radioId(args.radio_id)
