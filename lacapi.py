@@ -24,7 +24,6 @@ class LAPI:
 		self.__key = None
 		self.__out_dir = None
 		self.__out_prefix = ""
-		self.radioId = ""
 		self.__execute_command = None
 		self.token_lock = multiprocessing.Lock()
 
@@ -66,11 +65,6 @@ class LAPI:
 		global logger
 		logger.debug("Set client id to " + client_id)
 		self.__client_id = client_id
-
-	def set_radioId(self, radioId):
-		global logger
-		logger.debug("Set radioId to " + radioId)
-		self.radioId = radioId
 
 	def set_execute_command(self, execute_command):
 		global logger
@@ -231,7 +225,7 @@ class LAPI:
 		logger.info("Done " +  api + " in "+str(end-start));
 		# check response
 		if response.status_code != 200:                                                                                                                                                
-			logger.error("Something went wrong" + api + " status code: "+str(response.status_code))  
+			logger.error("!!!!!ERROR:Something went wrong" + api + " status code: "+str(response.status_code))  
 			logger.error(response.content)
 			return None
 
@@ -313,7 +307,7 @@ def add_apis(apis, args, device):
 			if "/{batchId}/" in api['URL']:
 				if batchId == "":
 					batchId = get_batchId()
-			s = api['URL'].format(deviceId=device, batchId=batchId)
+			s = api['URL'].format(deviceId=device, batchId=batchId, radioId=args.radio_id)
 			apis.append(s)
 	
 
@@ -418,10 +412,6 @@ def main():
 		lapi.set_execute_command(args.execute_command)
 
 	# execute the request
-	# set radio Id
-	if args.radio_id:
-		lapi.set_radioId(args.radio_id)
-
 	# get API
 	if args.api:
 		lapi.get(args.api)
