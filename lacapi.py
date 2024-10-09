@@ -298,13 +298,13 @@ def execute_apis(apis, multi):
 	for _ in tqdm.tqdm(pool.imap_unordered(mget, apis), total=len(apis)):
 		pass
 
-def get_batchId(args):
-    global lapi
+def get_batchId():
+	global lapi
+	global batchId
 
-    if args.batch_id:
-        return args.batch_id
-
-    return lapi.get_batchId()
+	if batchId == "":
+		batchId = lapi.get_batchId()
+	return batchId
 
 def add_apis(apis, args, device):
 	batchId = ""
@@ -312,7 +312,7 @@ def add_apis(apis, args, device):
 		if getattr(args, api['name']):
 			if "/{batchId}/" in api['URL']:
 				if batchId == "":
-					batchId = get_batchId(args)
+					batchId = get_batchId()
 			s = api['URL'].format(deviceId=device, batchId=batchId)
 			apis.append(s)
 	
@@ -321,6 +321,9 @@ def main():
 	global logger
 	global lapi
 	global apis
+	global batchId
+
+	batchId = ""
 
 	logger = logging.getLogger(__name__)
 	logger.setLevel(logging.INFO)
@@ -380,6 +383,10 @@ def main():
 		return False
 
 	lapi.set_config_url(config["config_url"])
+
+	# batchId
+	if args.batch_id:
+		batchId = args.batch_id
 
 	# stolen token
 	if args.token:
