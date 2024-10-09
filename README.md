@@ -1,6 +1,7 @@
 # lacapi
 Latest Cloud API
 1. Print help
+
 ./lacapi -h
 
 2. You need to prepare a config file(i.e. config.json) to pass config URL, Domain, client id and private key parameters.
