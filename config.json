@@ -1,6 +1,6 @@
 {
 	"config_url"	: "https://blabla.com/config.json",
-	"domain"	: "CUSTOMER",
-	"client_id"	: "get is from cloud guys",
-	"private_key"	: "private key for the client id"
+	"domain"	: "domain name",
+	"client_id"	: "get it from cloud guys",
+	"private_key"	: "private key file for the client id"
 }
