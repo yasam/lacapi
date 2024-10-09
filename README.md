@@ -6,6 +6,7 @@ Latest Cloud API
 2. You need to prepare a config file(i.e. config.json) to pass config URL, Domain, client id and private key parameters.
 
 3. Calling a basic API(-a)
+
 ./lacapi.py -c config.json -a /api/batches?limit=1
 
 4. Calling a pre-defined API for a device
