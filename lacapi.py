@@ -385,7 +385,7 @@ def main():
 	# stolen token
 	if args.token:
 		lapi.set_stolen_token(args.token)
-	
+
 
 	if not args.token:
 		# token is not set, get it from JWT via private key and client id
